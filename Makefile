@@ -14,7 +14,8 @@ LST_SRCS =	main.c \
 			utils.c \
 			initImg.c \
 			minimap.c \
-			movement.c
+			movement.c \
+			minimapFov.c
 
 LST_OBJS = $(LST_SRCS:.c=.o)
 

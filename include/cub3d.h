@@ -63,9 +63,13 @@ int			ft_parsing(char **argv, t_data *data);
 int			keyDown(int keycode, t_data *data);
 int			keyUp(int keycode, t_data *data);
 void		ft_init_minimap(t_data *data);
-int		ft_print_minimap(t_data *data);
+int			ft_print_minimap(t_data *data);
 void		ft_init_pos(t_data *data);
 int			ft_check_map(t_list *info, t_data *data);
+void	ft_moove_pos(t_data *data);
+void	ft_put_fov(t_data *data);
+
+
 
 
 #endif
