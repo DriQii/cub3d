@@ -5,8 +5,8 @@
 #define WIN_LENGHT 800
 #define FOVDEG 65
 #define FOVRAD FOVDEG * M_PI / 180
-#define WALL_WIDHT 64
-#define WALL_HEIGHT 64
+#define WALL_WIDHT 1284
+#define WALL_HEIGHT 1283
 
 #include <unistd.h>
 #include <stdio.h>
@@ -106,9 +106,10 @@ typedef struct s_ray
 	int		texX;
 	int		texY;
 	int		wallLen;
-	float		wStart;
+	int		wStart;
 	int		wEnd;
 	char	finalDir;
+	float	step;
 	float	impact;
 	float	rayDirX;
 	float	rayDirY;
@@ -119,6 +120,12 @@ typedef struct s_ray
 	float	finalDist;
 }	t_ray;
 
+void 		ft_dda_loop(t_data *data, t_ray *ray);
+void 		ft_init_side_dist(t_data *data, t_ray *ray, float angle);
+t_ray		ft_find_dist(t_data *data, float angle);
+float		ft_find_impact(t_ray ray, t_data *data, float angle);
+void		ft_set_index(t_data *data, t_ray *ray, t_index *index, float angle);
+void		ft_print_bg(t_data *data, int x, int wallen);
 void		ft_create_fov(t_data *data);
 void		my_player_pixel_put(t_img *data, int x, int y, int color);
 void		ft_create_minimap(t_data *data);

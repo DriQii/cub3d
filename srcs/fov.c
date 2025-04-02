@@ -1,6 +1,6 @@
 #include <cub3d.h>
 
-static void ft_init_side_dist(t_data *data, t_ray *ray, float angle)
+void ft_init_side_dist(t_data *data, t_ray *ray, float angle)
 {
 	ray->rayDirX = cos(angle);
 	ray->rayDirY = sin(angle);
@@ -28,7 +28,7 @@ static void ft_init_side_dist(t_data *data, t_ray *ray, float angle)
 	}
 }
 
-static void ft_dda_loop(t_data *data, t_ray *ray)
+void ft_dda_loop(t_data *data, t_ray *ray)
 {
 	int		hit;
 
@@ -53,39 +53,6 @@ static void ft_dda_loop(t_data *data, t_ray *ray)
 			hit = 1;
 	}
 }
-
-static t_ray	ft_find_dist(t_data *data, float angle)
-{
-	t_ray	ray;
-
-
-	ray.mapX = (int)data->player.x;
-	ray.mapY = (int)data->player.y;
-	ft_init_side_dist(data, &ray, angle);
-	ft_dda_loop(data, &ray);
-	if (ray.finalDir == 'x')
-		ray.finalDist = ray.sideDistX - ray.deltaX;
-	else
-		ray.finalDist = ray.sideDistY - ray.deltaY;
-	return (ray);
-}
-float	ft_find_impact(t_ray ray, t_data *data, float angle)
-{
-	float	impact;
-	float	posImpact;
-
-	if (ray.finalDir == 'x')
-	{
-		posImpact = data->player.y + ray.finalDist * sin(angle);
-		impact = posImpact - floor(posImpact);
-	}
-	else
-	{
-		posImpact = data->player.x + ray.finalDist * cos(angle);
-		impact = posImpact - floor(posImpact);
-	}
-	return (impact);
-}
 void	ft_print_wall(t_data *data, int x, int i, t_ray ray)
 {
 
@@ -97,48 +64,30 @@ void	ft_print_wall(t_data *data, int x, int i, t_ray ray)
 	my_pixel_put(&data->frame, x, i, *(unsigned int *)(data->wall.addr + offset));
 }
 
-void	ft_print_bg(t_data *data, int x, int wallen)
-{
-	int	i;
 
-	i = 0;
-	while(i < WIN_LENGHT)
-	{
-		if (i < (WIN_LENGHT - wallen) / 2)
-			my_pixel_put(&data->frame, x, i, 0x0000F0FF);
-		else if (i > (WIN_LENGHT - wallen) / 2 + wallen)
-			my_pixel_put(&data->frame, x, i, 0x00FFF0F0);
-		i++;
-	}
-}
 
-void ft_put_line(t_data *data, t_ray ray, int x, float angle)
+void ft_put_line(t_data *data, t_ray *ray, int x, float angle)
 {
 	t_index index;
-	float	step;
 	float		txPos;
 
-	index.i = 0;
-	index.j = 0;
-	ray.finalDist *= cos(angle - data->player.pa);
-	int	wallLen = WIN_LENGHT / ray.finalDist / 2;
-	if (wallLen < WIN_LENGHT)
-		index.i = (WIN_LENGHT - wallLen) / 2;
-	else
-		index.i = 0;
-	index.j = 0;
-	step = (float)WALL_HEIGHT / wallLen;
+	ft_set_index(data, ray, &index, angle);
+	ft_print_bg(data, x, ray->wallLen);
+	ray->impact = ft_find_impact(*ray, data, angle);
+	ray->wStart = -ray->wallLen / 2 + WIN_LENGHT / 2;
 	txPos = 0;
-	ray.texY = 0;
-	ft_print_bg(data, x, wallLen);
-	ray.impact = ft_find_impact(ray, data, angle);
-	while(index.j < wallLen && index.i < WIN_LENGHT)
+	if (ray->wStart < 0)
+	{
+		ray->wStart *= -1;
+		txPos = ray->wStart * ray->step;
+	}
+	while(index.j < ray->wallLen && index.i < WIN_LENGHT)
 	{
 		index.j++;
-		ft_print_wall(data, x, index.i, ray);
+		ft_print_wall(data, x, index.i, *ray);
 		index.i++;
-		txPos+= step;
-		ray.texY = txPos;
+		txPos+= ray->step;
+		ray->texY = txPos;
 	}
 }
 void	ft_create_fov(t_data *data)
@@ -156,7 +105,7 @@ void	ft_create_fov(t_data *data)
 	while(index.i < WIN_WIDTH)
 	{
 		ray = ft_find_dist(data, angle);
-		ft_put_line(data, ray, index.i, angle);
+		ft_put_line(data, &ray, index.i, angle);
 		angle += decalage;
 		index.i++;
 	}

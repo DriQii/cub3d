@@ -6,7 +6,7 @@ void	ft_init(t_data *data)
 	int y;
 	t_index index;
 
-	data->wall.img = mlx_xpm_file_to_image(data->mlx, "./img/wall.xpm", &x, &y);
+	data->wall.img = mlx_xpm_file_to_image(data->mlx, "./img/enzo2.xpm", &x, &y);
 	data->wall.addr = mlx_get_data_addr(data->wall.img, &data->wall.bits_per_pixel, &data->wall.line_length, &data->wall.endian);
 
 

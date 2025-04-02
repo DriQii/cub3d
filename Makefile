@@ -18,7 +18,8 @@ LST_SRCS =	main.c \
 			minimapFov.c \
 			hook.c \
 			render.c \
-			fov.c
+			fov.c \
+			fovUtils.c
 
 LST_OBJS = $(LST_SRCS:.c=.o)
 
