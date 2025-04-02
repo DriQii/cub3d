@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:18:22 by evella            #+#    #+#             */
-/*   Updated: 2025/02/18 13:26:47 by evella           ###   ########.fr       */
+/*   Updated: 2025/02/19 15:40:17 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ static void ft_add_space_to_tab(t_data *data)
 			data->map[index.i] = ft_add_space_to_str(data->map[index.i], index.l);
 		index.i++;
 	}
-	data->minimap->width = index.l;
-	data->minimap->length = index.i;
 }
 
 static int ft_check_space(char** map,int i, int j)

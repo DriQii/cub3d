@@ -1,6 +1,6 @@
 CC = gcc
 
-CFLAGS = -Wall -g -Imlx -Ilibft -Iinclude  -Lmlx -lmlx -Llibft -lft -framework OpenGL -framework AppKit
+CFLAGS = -Wall -fsanitize=address -fno-omit-frame-pointer -g -Imlx -Ilibft -Iinclude  -Lmlx -lmlx -Llibft -lft -framework OpenGL -framework AppKit
 
 NAME = cub3d
 
@@ -15,7 +15,9 @@ LST_SRCS =	main.c \
 			initImg.c \
 			minimap.c \
 			movement.c \
-			minimapFov.c
+			minimapFov.c \
+			hook.c \
+			render.c
 
 LST_OBJS = $(LST_SRCS:.c=.o)
 

@@ -1,51 +1,59 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   initImg.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/17 19:18:27 by evella            #+#    #+#             */
-/*   Updated: 2025/02/18 13:46:05 by evella           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <cub3d.h>
 
-void	ft_init_pos(t_data *data)
+void	ft_init(t_data *data)
 {
-	t_index	index;
+	int x;
+	int y;
+	t_index index;
+
+	data->minimap.floor.img = mlx_xpm_file_to_image(data->mlx, "./img/blanc.xpm", &x, &y);
+	data->minimap.wall.img = mlx_xpm_file_to_image(data->mlx, "./img/bleu.xpm", &x, &y);
+	data->minimap.player.img = mlx_xpm_file_to_image(data->mlx, "./img/rouge.xpm", &x, &y);
+	data->minimap.fov.img = mlx_xpm_file_to_image(data->mlx, "./img/noir.xpm", &x, &y);
+
 
 	index.i = 0;
 	index.j = 0;
-
-	data->player.angle = 0;
-	while(data->map[index.i])
+	while (data->map[index.i])
 	{
-		while(data->map[index.i][index.j])
+		index.j = 0;
+		while (data->map[index.i][index.j])
 		{
-			if(data->map[index.i][index.j] == 'N')
+			if (data->map[index.i][index.j] == 'S')
 			{
-				data->player.y = index.i;
+				data->player.pa = M_PI_2;
 				data->player.x = index.j;
+				data->player.y = index.i;
+			}
+			if (data->map[index.i][index.j] == 'W')
+			{
+				data->player.pa = M_PI;
+				data->player.x = index.j;
+				data->player.y = index.i;
+			}
+			if (data->map[index.i][index.j] == 'N')
+			{
+				data->player.pa = M_PI + M_PI_2;
+				data->player.x = index.j;
+				data->player.y = index.i;
+			}
+			if (data->map[index.i][index.j] == 'E')
+			{
+				data->player.pa = 0;
+				data->player.x = index.j;
+				data->player.y = index.i;
 			}
 			index.j++;
 		}
-		index.j = 0;
 		index.i++;
 	}
-}
-
-void	ft_init_minimap(t_data *data)
-{
-	int	l;
-	int	k;
-	data->keystate[W] = 0;
-	data->keystate[A] = 0;
-	data->keystate[S] = 0;
-	data->keystate[D] = 0;
-	data->minimap->floor.img = mlx_xpm_file_to_image(data->mlx, "./img/blanc.xpm", &l, &k);
-	data->minimap->player.img = mlx_xpm_file_to_image(data->mlx, "./img/rouge.xpm", &l, &k);
-	data->minimap->wall.img = mlx_xpm_file_to_image(data->mlx, "./img/bleu.xpm", &l, &k);
-	data->minimap->delta.img = mlx_xpm_file_to_image(data->mlx, "./img/noir.xpm", &l, &k);
+	data->keyState[W] = 0;
+	data->keyState[A] = 0;
+	data->keyState[S] = 0;
+	data->keyState[D] = 0;
+	data->keyState[L] = 0;
+	data->keyState[R] = 0;
+	data->mouse.x = 0;
+	data->mouse.y = 0;
+	data->player.speed = 0.1;
 }

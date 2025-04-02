@@ -1,26 +1,60 @@
 #include <cub3d.h>
 
-int keyDown(int keycode, t_data *data)
+/* void	check_moove(t_data *data, int newX, int newY)
 {
-	if (keycode == 13)
-		data->keystate[W] = 1;
-	else if (keycode == 0)
-		data->keystate[A] = 1;
-	else if (keycode == 1)
-		data->keystate[S] = 1;
-	else if (keycode == 2)
-		data->keystate[D] = 1;
-	return (0);
+	t_index	index;
+
+	index.x = 0;
+	index.y = 0;
+	while(index.x < 4)
+	{
+		while(index.y < 4)
+		{
+			if (data->map[(int)newY][(int)newX] != '1')
+			{
+
+			}
+			index.y++;
+		}
+		index.y = 0;
+		index.x++;
+	}
+} */
+
+static void calculate_delta(float *dx, float *dy, float pa)
+{
+	*dx += cos(pa);
+	*dy += sin(pa);
 }
-int keyUp(int keycode, t_data *data)
+
+void	ft_moove_pos(t_data *data)
 {
-	if (keycode == 13)
-		data->keystate[W] = 0;
-	else if (keycode == 0)
-		data->keystate[A] = 0;
-	else if (keycode == 1)
-		data->keystate[S] = 0;
-	else if (keycode == 2)
-		data->keystate[D] = 0;
-	return (0);
+	float dx = 0;
+	float dy = 0;
+	if(data->keyState[W] == 1)
+		calculate_delta(&dx, &dy, data->player.pa);
+	if(data->keyState[S] == 1)
+		calculate_delta(&dx, &dy, data->player.pa + M_PI);
+	if(data->keyState[A] == 1)
+		calculate_delta(&dx, &dy, data->player.pa - M_PI_2);
+	if(data->keyState[D] == 1)
+		calculate_delta(&dx, &dy, data->player.pa + M_PI_2);
+	if (data->map[(int)(data->player.y + dy * data->player.speed)][(int)(data->player.x + dx * data->player.speed)] != '1')
+	{
+		data->player.x += dx * data->player.speed;
+		data->player.y += dy * data->player.speed;
+	}
+}
+
+void	ft_moove_fov(t_data *data)
+{
+	if(data->keyState[L] == 1)
+		data->player.pa -= 0.05;
+	if(data->keyState[R] == 1)
+		data->player.pa += 0.05;
+	if(data->player.pa > M_PI * 2)
+		data->player.pa -= M_PI * 2;
+	else if(data->player.pa < 0)
+		data->player.pa += M_PI * 2;
+
 }

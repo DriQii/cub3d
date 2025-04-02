@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 15:02:55 by evella            #+#    #+#             */
-/*   Updated: 2025/02/18 13:26:23 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/02 01:31:56 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int	ft_parsing(char **argv, t_data *data)
 	t_list		*info;
 
 	info = ft_create_info(argv[1]);
-	data->minimap = malloc(sizeof(t_minimap));
-	data->map = ft_create_map(info);
+	data->map = ft_create_map(info, data);
 	if (!ft_check_all(info) || !ft_check_map(info, data))
 	{
 		printf("ERROR : Wrong map.cub format\n");
