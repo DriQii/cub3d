@@ -93,6 +93,22 @@ typedef struct s_pos
 	float	y;
 }	t_pos;
 
+typedef struct s_ray
+{
+	int		mapX;
+	int		mapY;
+	int		stepX;
+	int		stepY;
+	char	finalDir;
+	float	rayDirX;
+	float	rayDirY;
+	float	deltaX;
+	float	deltaY;
+	float	sideDistX;
+	float	sideDistY;
+	float	finalDist;
+}	t_ray;
+
 void		my_player_pixel_put(t_img *data, int x, int y, int color);
 void		ft_create_minimap(t_data *data);
 int			ft_render(t_data *data);

@@ -1,42 +1,73 @@
 #include <cub3d.h>
 
-
-float ft_find_distance(float x, float y, float nX, float nY)
+void ft_init_side_dist(t_data *data, t_ray *ray, float angle)
 {
-	float dist;
-	float dx = nX - x;
-	float dy = nY - y;
-	dist = sqrt(dy*dy + dx*dx);
-	return (dist);
+	ray->rayDirX = cos(angle);
+	ray->rayDirY = sin(angle);
+	ray->deltaX = (ray->rayDirX == 0) ? 1e30 : fabs(1 / ray->rayDirX);
+	ray->deltaY = (ray->rayDirY == 0) ? 1e30 : fabs(1 / ray->rayDirY);
+	if (ray->rayDirX < 0)
+	{
+		ray->stepX = -1;
+		ray->sideDistX = (data->player.x - ray->mapX) * ray->deltaX;
+	}
+	else if (ray->rayDirX >= 0)
+	{
+		ray->stepX = 1;
+		ray->sideDistX = (ray->mapX + 1 - data->player.x) * ray->deltaX;
+	}
+	if (ray->rayDirY < 0)
+	{
+		ray->stepY = -1;
+		ray->sideDistY = (data->player.y - ray->mapY) * ray->deltaY;
+	}
+	else if (ray->rayDirY >= 0)
+	{
+		ray->stepY = 1;
+		ray->sideDistY = (ray->mapY + 1 - data->player.y) * ray->deltaY;
+	}
 }
 
-t_pos ft_find_wall(t_data *data, float angle)
+void ft_dna_loop(t_data *data, t_ray *ray)
 {
-	t_pos	pos;
-	int		i;
+	int		hit;
 
-	i = 0;
-	pos.x = data->player.x;
-	pos.y = data->player.y;
+	hit = 0;
 
-	while(data->map[(int)pos.y][(int)pos.x] != '1')
+	while(!hit)
 	{
-		if (i < 5)
+		if (ray->sideDistX < ray->sideDistY)
 		{
-			my_pixel_put(&data->frame, pos.x * 4, pos.y * 4, 0x00000000);
-			i++;
+			ray->sideDistX += ray->deltaX;
+			ray->mapX += ray->stepX;
+			ray->finalDir = 'x';
 		}
-		pos.x += cos(angle);
-		pos.y += sin(angle);
+		else
+		{
+			ray->sideDistY += ray->deltaY;
+			ray->mapY += ray->stepY;
+			ray->finalDir = 'y';
+		}
+
+		if (data->map[ray->mapY][ray->mapX] == '1')
+			hit = 1;
 	}
-	pos.x -= cos(angle);
-	pos.y -= sin(angle);
-	while(data->map[(int)pos.y][(int)pos.x] != '1')
-	{
-		pos.x += cos(angle) * 0.01;
-		pos.y += sin(angle) * 0.01;
-	}
-	return (pos);
+}
+
+float ft_find_wall(t_data *data, float angle)
+{
+	t_ray	ray;
+
+	ray.mapX = (int)data->player.x;
+	ray.mapY = (int)data->player.y;
+	ft_init_side_dist(data, &ray, angle);
+	ft_dna_loop(data, &ray);
+	if (ray.finalDir == 'x')
+		ray.finalDist = ray.sideDistX - ray.deltaX;
+	else
+		ray.finalDist = ray.sideDistY - ray.deltaY;
+	return (ray.finalDist);
+
 }
 
 void ft_put_bg(t_data *data, int x)
@@ -82,7 +113,7 @@ void ft_put_line(t_data *data, float dist, int x, float angle)
 void	ft_show_fov(t_data *data)
 {
 	t_index	index;
-	t_pos pos;
+	float	dist;
 	float	angle;
 	float	decalage;
 
@@ -91,8 +122,8 @@ void	ft_show_fov(t_data *data)
 	decalage = 1.05 / WIN_WIDTH;
 	while(index.i < 1080)
 	{
-		pos = ft_find_wall(data, angle);
-		ft_put_line(data, ft_find_distance(data->player.x, data->player.y, pos.x, pos.y), index.i, angle);
+		dist = ft_find_wall(data, angle);
+		ft_put_line(data, dist, index.i, angle);
 		angle += decalage;
 		index.i++;
 	}
