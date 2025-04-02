@@ -1,26 +1,5 @@
 #include <cub3d.h>
 
-/* void	check_moove(t_data *data, int newX, int newY)
-{
-	t_index	index;
-
-	index.x = 0;
-	index.y = 0;
-	while(index.x < 4)
-	{
-		while(index.y < 4)
-		{
-			if (data->map[(int)newY][(int)newX] != '1')
-			{
-
-			}
-			index.y++;
-		}
-		index.y = 0;
-		index.x++;
-	}
-} */
-
 static void calculate_delta(float *dx, float *dy, float pa)
 {
 	*dx += cos(pa);

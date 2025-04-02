@@ -6,10 +6,8 @@ void	ft_init(t_data *data)
 	int y;
 	t_index index;
 
-	data->minimap.floor.img = mlx_xpm_file_to_image(data->mlx, "./img/blanc.xpm", &x, &y);
-	data->minimap.wall.img = mlx_xpm_file_to_image(data->mlx, "./img/bleu.xpm", &x, &y);
-	data->minimap.player.img = mlx_xpm_file_to_image(data->mlx, "./img/rouge.xpm", &x, &y);
-	data->minimap.fov.img = mlx_xpm_file_to_image(data->mlx, "./img/noir.xpm", &x, &y);
+	data->wall.img = mlx_xpm_file_to_image(data->mlx, "./img/wall.xpm", &x, &y);
+	data->wall.addr = mlx_get_data_addr(data->wall.img, &data->wall.bits_per_pixel, &data->wall.line_length, &data->wall.endian);
 
 
 	index.i = 0;

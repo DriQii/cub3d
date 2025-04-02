@@ -1,9 +1,12 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
-#define WIN_WIDTH 1080
-#define WIN_LENGHT 720
-#define TILE_SIZE 64
+#define WIN_WIDTH 1280
+#define WIN_LENGHT 800
+#define FOVDEG 65
+#define FOVRAD FOVDEG * M_PI / 180
+#define WALL_WIDHT 64
+#define WALL_HEIGHT 64
 
 #include <unistd.h>
 #include <stdio.h>
@@ -61,17 +64,18 @@ typedef struct s_mouse
 
 typedef struct s_data
 {
-	t_list		*info;
+	int			keyState[6];
+	int			mapX;
+	int			mapY;
 	void		*mlx;
 	void		*mlx_win;
 	char		**map;
-	t_minimap	minimap;
-	t_player	player;
-	int			keyState[6];
-	t_mouse		mouse;
+	t_img		wall;
 	t_img		frame;
-	int			mapY;
-	int			mapX;
+	t_list		*info;
+	t_mouse		mouse;
+	t_player	player;
+	t_minimap	minimap;
 }				t_data;
 
 typedef struct s_index
@@ -99,7 +103,13 @@ typedef struct s_ray
 	int		mapY;
 	int		stepX;
 	int		stepY;
+	int		texX;
+	int		texY;
+	int		wallLen;
+	float		wStart;
+	int		wEnd;
 	char	finalDir;
+	float	impact;
 	float	rayDirX;
 	float	rayDirY;
 	float	deltaX;
@@ -109,6 +119,7 @@ typedef struct s_ray
 	float	finalDist;
 }	t_ray;
 
+void		ft_create_fov(t_data *data);
 void		my_player_pixel_put(t_img *data, int x, int y, int color);
 void		ft_create_minimap(t_data *data);
 int			ft_render(t_data *data);

@@ -2,8 +2,9 @@
 
 void	ft_create_frame(t_data *data)
 {
-	data->frame.img = mlx_new_image(data->mlx, 1080, 720);
+	data->frame.img = mlx_new_image(data->mlx, WIN_WIDTH, WIN_LENGHT);
 	data->frame.addr = mlx_get_data_addr(data->frame.img, &data->frame.bits_per_pixel, &data->frame.line_length, &data->frame.endian);
+	ft_create_fov(data);
 	ft_create_minimap(data);
 }
 

@@ -17,7 +17,8 @@ LST_SRCS =	main.c \
 			movement.c \
 			minimapFov.c \
 			hook.c \
-			render.c
+			render.c \
+			fov.c
 
 LST_OBJS = $(LST_SRCS:.c=.o)
 
