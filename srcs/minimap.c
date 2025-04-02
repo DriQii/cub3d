@@ -1,5 +1,26 @@
 #include <cub3d.h>
 
+
+void ft_print_fov_minimap(t_data *data, float angle)
+{
+	t_pos	pos;
+	int		i;
+
+	i = 0;
+	pos.x = data->player.x;
+	pos.y = data->player.y;
+
+	while(data->map[(int)pos.y][(int)pos.x] && data->map[(int)pos.y][(int)pos.x] != '1')
+	{
+		if (i < 4)
+		{
+			my_pixel_put(&data->frame, pos.x * 4, pos.y * 4, 0x00000000);
+			i++;
+		}
+		pos.x += cos(angle);
+		pos.y += sin(angle);
+	}
+}
 void ft_init_side_dist(t_data *data, t_ray *ray, float angle)
 {
 	ray->rayDirX = cos(angle);
@@ -28,7 +49,7 @@ void ft_init_side_dist(t_data *data, t_ray *ray, float angle)
 	}
 }
 
-void ft_dna_loop(t_data *data, t_ray *ray)
+void ft_dda_loop(t_data *data, t_ray *ray)
 {
 	int		hit;
 
@@ -58,16 +79,16 @@ float ft_find_wall(t_data *data, float angle)
 {
 	t_ray	ray;
 
+
 	ray.mapX = (int)data->player.x;
 	ray.mapY = (int)data->player.y;
 	ft_init_side_dist(data, &ray, angle);
-	ft_dna_loop(data, &ray);
+	ft_dda_loop(data, &ray);
 	if (ray.finalDir == 'x')
 		ray.finalDist = ray.sideDistX - ray.deltaX;
 	else
 		ray.finalDist = ray.sideDistY - ray.deltaY;
 	return (ray.finalDist);
-
 }
 
 void ft_put_bg(t_data *data, int x)
@@ -97,19 +118,31 @@ void ft_put_line(t_data *data, float dist, int x, float angle)
 	else
 		i = 0;
 	j = 0;
-	//printf("i = %d x = %d walllen = %d\n", i, x, wallLen);
 	while(j < wallLen && i < WIN_LENGHT)
 	{
 		j++;
 		my_pixel_put(&data->frame, x, i, 0x0000FF00);
 		i++;
 	}
-	//printf("%d\n", wallLen);
-
 }
 
 
+void	ft_show_minimap_fov(t_data *data)
+{
+	t_index	index;
+	float	angle;
+	float	decalage;
 
+	index.i = 0;
+	angle = data->player.pa - 0.525;
+	decalage = 1.05 /( WIN_WIDTH / 2);
+	while(index.i < WIN_WIDTH / 2)
+	{
+		ft_print_fov_minimap(data, angle);
+		angle += decalage;
+		index.i++;
+	}
+}
 void	ft_show_fov(t_data *data)
 {
 	t_index	index;
@@ -128,6 +161,7 @@ void	ft_show_fov(t_data *data)
 		index.i++;
 	}
 }
+
 void	ft_create_minimap(t_data *data)
 {
 	ft_show_fov(data);
@@ -147,6 +181,7 @@ void	ft_create_minimap(t_data *data)
 		index.j = 0;
 		index.i++;
 	}
+	ft_show_minimap_fov(data);
 	my_player_pixel_put(&data->frame, data->player.x * 4, data->player.y * 4, 0x00FF0000);
 }
 
