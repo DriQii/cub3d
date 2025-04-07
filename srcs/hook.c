@@ -2,34 +2,36 @@
 
 int	KeyDown(int keycode, t_data *data)
 {
-	if (keycode == 13)
+	printf("k = %d\n", keycode);
+	if (keycode == WK)
 		data->keyState[W] = 1;
-	if (keycode == 0)
+	if (keycode == AK)
 		data->keyState[A] = 1;
-	if (keycode == 1)
+	if (keycode == SK)
 		data->keyState[S] = 1;
-	if (keycode == 2)
+	if (keycode == DK)
 		data->keyState[D] = 1;
-	if (keycode == 123)
+	if (keycode == LK)
 		data->keyState[L] = 1;
-	if (keycode == 124)
+	if (keycode == RK)
 		data->keyState[R] = 1;
 	return (0);
 }
 
 int	KeyUp(int keycode, t_data *data)
 {
-	if (keycode == 13)
+	printf("k = %d\n", keycode);
+	if (keycode == WK)
 		data->keyState[W] = 0;
-	if (keycode == 0)
+	if (keycode == AK)
 		data->keyState[A] = 0;
-	if (keycode == 1)
+	if (keycode == SK)
 		data->keyState[S] = 0;
-	if (keycode == 2)
+	if (keycode == DK)
 		data->keyState[D] = 0;
-	if (keycode == 123)
+	if (keycode == LK)
 		data->keyState[L] = 0;
-	if (keycode == 124)
+	if (keycode == RK)
 		data->keyState[R] = 0;
 	return (0);
 }

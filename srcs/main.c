@@ -21,7 +21,9 @@ int close_window(t_data *data)
 	mlx_destroy_image(data->mlx, data->eaTex.img);
 	ft_freelst(data->info);
 	ft_freetabtabb(data->map);
+	mlx_destroy_display(data->mlx);
 	free(data->mlx);
+	free(data);
 	exit(0);
     return (0);
 }
@@ -36,8 +38,8 @@ int	main(int argc, char **argv)
 	data->mlx = mlx_init();
 	data->mlx_win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_LENGHT, "Cub3D");
 	ft_init_all(data);
-	mlx_hook(data->mlx_win, 2, 0l, KeyDown, data);
-	mlx_hook(data->mlx_win, 3, 0l, KeyUp, data);
+	mlx_hook(data->mlx_win, 2, 1L<<0, KeyDown, data);
+	mlx_hook(data->mlx_win, 3, 1L<<1, KeyUp, data);
 	mlx_hook(data->mlx_win, 6, 0l, MouseMoove, data);
 	mlx_hook(data->mlx_win, 17, 0L, close_window, data);
 	mlx_loop_hook(data->mlx, ft_render, data);

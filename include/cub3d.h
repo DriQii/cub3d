@@ -1,10 +1,27 @@
 #ifndef CUB3D_H
 #define CUB3D_H
-
+#define FOVDEG 60
 #define WIN_WIDTH 1280
 #define WIN_LENGHT 800
-#define FOVDEG 60
 #define FOVRAD FOVDEG * M_PI / 180
+
+#ifdef __APPLE__
+    #define WK13
+	#define AK 0
+	#define SK 1
+	#define DK 2
+	#define LK 123
+	#define RK 124
+	#define ESC 65307
+#elif defined(__linux__)
+	#define WK 119
+	#define AK 97
+	#define SK 115
+	#define DK 100
+	#define LK 65361
+	#define RK 65363
+	#define ESC 65307
+#endif
 
 #include <unistd.h>
 #include <stdio.h>

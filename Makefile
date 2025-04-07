@@ -1,6 +1,12 @@
 CC = gcc
 
-CFLAGS = -Wall -g -O0 -Imlx -Ilibft -Iinclude  -Lmlx -lmlx -Llibft -lft -framework OpenGL -framework AppKit
+ifeq ($(shell uname), Darwin)
+	CFLAGS = -Wall -g -O0 -Imlx -Ilibft -Iinclude  -Lmlx -lmlx -Llibft -lft -framework OpenGL -framework AppKit
+    LDFLAGS = -framework Cocoa
+else
+    CFLAGS = -Wall -g -O0 -lXext -lX11 -lm -lz -Imlx_linux -Ilibft -Iinclude  -Lmlx_linux -lmlx -Llibft -lft
+    LDFLAGS = -lm
+endif
 
 NAME = cub3d
 
