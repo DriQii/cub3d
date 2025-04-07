@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:18:39 by evella            #+#    #+#             */
-/*   Updated: 2025/02/17 19:18:40 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/07 18:25:40 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int ft_check_pole(t_list *map)
 	char carDir[4][3] = {"NO", "SO", "WE", "EA"};
 
 	i = 0;
-	if(ft_lstsize(map) < 11)
+	if(ft_lstsize(map) < 9)
 		return (0);
 	while(i < 4)
 	{
@@ -77,7 +77,7 @@ int ft_check_up_and_down(t_list *map)
 	char *down;
 
 	i = 0;
-	while (i++ < 5)
+	while (i++ < 4)
 		map = map->next;
 	up = map->content;
 	down = map->next->content;

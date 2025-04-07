@@ -53,15 +53,53 @@ void ft_dda_loop(t_data *data, t_ray *ray)
 			hit = 1;
 	}
 }
+void	ft_set_step(t_data *data, t_ray *ray)
+{
+	if(ray->finalDir == 'x' && ray->stepX == -1)
+	{
+		ray->texX = (ray->impact * data->weTex.width);
+		ray->step = (float)data->weTex.height / ray->wallLen;
+	}
+	else if(ray->finalDir == 'x' && ray->stepX == 1)
+	{
+		ray->texX = (ray->impact * data->eaTex.width);
+		ray->step = (float)data->eaTex.height / ray->wallLen;
+	}
+	else if(ray->finalDir == 'y' && ray->stepY == -1)
+	{
+		ray->texX = (ray->impact * data->noTex.width);
+		ray->step = (float)data->noTex.height / ray->wallLen;
+	}
+	else if(ray->finalDir == 'y' && ray->stepY == 1)
+	{
+		ray->texX = (ray->impact * data->soTex.width);
+		ray->step = (float)data->soTex.height / ray->wallLen;
+	}
+}
+
 void	ft_print_wall(t_data *data, int x, int i, t_ray ray)
 {
-
-	int		texX;
 	int		offset;
-
-	texX = (ray.impact * WALL_WIDHT);
-	offset = (ray.texY * data->wall.line_length) + (texX * (data->wall.bits_per_pixel / 8));
-	my_pixel_put(&data->frame, x, i, *(unsigned int *)(data->wall.addr + offset));
+	if(ray.finalDir == 'x' && ray.stepX == -1)
+	{
+		offset = (ray.texY * data->weTex.line_length) + ((data->weTex.width - 1 - ray.texX) * (data->weTex.bits_per_pixel / 8));
+		my_pixel_put(&data->frame, x, i, *(unsigned int *)(data->weTex.addr + offset));
+	}
+	else if(ray.finalDir == 'x' && ray.stepX == 1)
+	{
+		offset = (ray.texY * data->eaTex.line_length) + (ray.texX * (data->eaTex.bits_per_pixel / 8));
+		my_pixel_put(&data->frame, x, i, *(unsigned int *)(data->eaTex.addr + offset));
+	}
+	else if(ray.finalDir == 'y' && ray.stepY == -1)
+	{
+		offset = (ray.texY * data->noTex.line_length) + (ray.texX * (data->noTex.bits_per_pixel / 8));
+		my_pixel_put(&data->frame, x, i, *(unsigned int *)(data->noTex.addr + offset));
+	}
+	else if(ray.finalDir == 'y' && ray.stepY == 1)
+	{
+		offset = (ray.texY * data->soTex.line_length) + ((data->soTex.width - 1 - ray.texX) * (data->soTex.bits_per_pixel / 8));
+		my_pixel_put(&data->frame, x, i, *(unsigned int *)(data->soTex.addr + offset));
+	}
 }
 
 
@@ -74,12 +112,13 @@ void ft_put_line(t_data *data, t_ray *ray, int x, float angle)
 	ft_set_index(data, ray, &index, angle);
 	ft_print_bg(data, x, ray->wallLen);
 	ray->impact = ft_find_impact(*ray, data, angle);
+	ft_set_step(data, ray);
 	ray->wStart = -ray->wallLen / 2 + WIN_LENGHT / 2;
 	txPos = 0;
 	if (ray->wStart < 0)
 	{
-		ray->wStart *= -1;
-		txPos = ray->wStart * ray->step;
+		txPos = (-ray->wStart) * ray->step;
+		ray->wStart = 0;
 	}
 	while(index.j < ray->wallLen && index.i < WIN_LENGHT)
 	{

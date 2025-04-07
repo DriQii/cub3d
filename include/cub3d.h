@@ -3,10 +3,8 @@
 
 #define WIN_WIDTH 1280
 #define WIN_LENGHT 800
-#define FOVDEG 65
+#define FOVDEG 60
 #define FOVRAD FOVDEG * M_PI / 180
-#define WALL_WIDHT 1284
-#define WALL_HEIGHT 1283
 
 #include <unistd.h>
 #include <stdio.h>
@@ -21,6 +19,8 @@ typedef struct	s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		width;
+	int		height;
 }				t_img;
 
 typedef enum e_key
@@ -56,27 +56,32 @@ typedef struct s_player
 
 typedef struct s_mouse
 {
-	float x;
-	float y;
+	int x;
+	int y;
 	float newX;
 	float newY;
 }				t_mouse;
 
 typedef struct s_data
 {
-	int			keyState[6];
-	int			mapX;
-	int			mapY;
-	void		*mlx;
-	void		*mlx_win;
-	char		**map;
-	t_img		wall;
-	t_img		frame;
-	t_list		*info;
-	t_mouse		mouse;
-	t_player	player;
-	t_minimap	minimap;
-}				t_data;
+	int				keyState[6];
+	int				mapX;
+	int				mapY;
+	void			*mlx;
+	void			*mlx_win;
+	char			**map;
+	unsigned int	fColor;
+	unsigned int	cColor;
+	t_img			noTex;
+	t_img			soTex;
+	t_img			weTex;
+	t_img			eaTex;
+	t_img			frame;
+	t_list			*info;
+	t_mouse			mouse;
+	t_player		player;
+	t_minimap		minimap;
+}					t_data;
 
 typedef struct s_index
 {
@@ -140,7 +145,9 @@ int			KeyDown(int keycode, t_data *data);
 char		**ft_create_map(t_list *info, t_data *data);
 int			ft_parsing(char **argv, t_data *data);
 int			ft_check_map(t_list *info, t_data *data);
-void		ft_init(t_data *data);
+void		ft_init_all(t_data *data);
+void		ft_init_color(t_data *data);
+
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 15:02:55 by evella            #+#    #+#             */
-/*   Updated: 2025/04/02 14:10:35 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/07 18:26:00 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_list *ft_create_info(char *mapStr)
 	tmp = get_next_line(mapFd);
 	while(tmp)
 	{
-		ft_lstadd_back(&mapLst,ft_lstnew(tmp));
+		if(tmp[0] != '\n')
+			ft_lstadd_back(&mapLst,ft_lstnew(tmp));
 		tmp = get_next_line(mapFd);
 	}
 	close(mapFd);

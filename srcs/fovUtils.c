@@ -8,9 +8,9 @@ void	ft_print_bg(t_data *data, int x, int wallen)
 	while(i < WIN_LENGHT)
 	{
 		if (i < (WIN_LENGHT - wallen) / 2)
-			my_pixel_put(&data->frame, x, i, 0x0000F0FF);
+			my_pixel_put(&data->frame, x, i, data->fColor);
 		else if (i > (WIN_LENGHT - wallen) / 2 + wallen)
-			my_pixel_put(&data->frame, x, i, 0x00FFF0F0);
+			my_pixel_put(&data->frame, x, i, data->cColor);
 		i++;
 	}
 }
@@ -37,12 +37,12 @@ float	ft_find_impact(t_ray ray, t_data *data, float angle)
 
 	if (ray.finalDir == 'x')
 	{
-		posImpact = data->player.y + ray.finalDist * sin(angle);
+		posImpact = data->player.y + ray.finalDist * ray.rayDirY;
 		impact = posImpact - floor(posImpact);
 	}
 	else
 	{
-		posImpact = data->player.x + ray.finalDist * cos(angle);
+		posImpact = data->player.x + ray.finalDist * ray.rayDirX;
 		impact = posImpact - floor(posImpact);
 	}
 	return (impact);
@@ -51,13 +51,11 @@ void ft_set_index(t_data *data, t_ray *ray, t_index *index, float angle)
 {
 	index->i = 0;
 	index->j = 0;
-	ray->finalDist *= cos(angle - data->player.pa);
-	ray->wallLen = WIN_LENGHT / ray->finalDist;
+	ray->wallLen = WIN_LENGHT / (ray->finalDist * cos(angle - data->player.pa));
 	if (ray->wallLen < WIN_LENGHT)
 		index->i = (WIN_LENGHT - ray->wallLen) / 2;
 	else
 		index->i = 0;
 	index->j = 0;
-	ray->step = (float)WALL_HEIGHT / ray->wallLen;
 	ray->texY = 0;
 }
