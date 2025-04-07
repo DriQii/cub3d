@@ -147,6 +147,8 @@ int			ft_parsing(char **argv, t_data *data);
 int			ft_check_map(t_list *info, t_data *data);
 void		ft_init_all(t_data *data);
 void		ft_init_color(t_data *data);
+void		*ft_freetabtabb(char **tab);
+void		ft_freelst(t_list *lst);
 
 
 

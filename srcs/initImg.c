@@ -2,8 +2,12 @@
 
 void	ft_init_one_tex(t_data *data, t_img *img, t_list *info)
 {
-	img->img = mlx_xpm_file_to_image(data->mlx, ft_substr(info->content, 3, ft_strlen(info->content) - 4), &img->width, &img->height);
+	char *file;
+
+	file = ft_substr(info->content, 3, ft_strlen(info->content) - 4);
+	img->img = mlx_xpm_file_to_image(data->mlx, file, &img->width, &img->height);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+	free(file);
 }
 
 void ft_init_tex(t_data *data, t_index *index)
@@ -113,9 +117,9 @@ void ft_init_color(t_data *data)
 			index.j++;
 		}
 		if (index.i == 1)
-			data->fColor = (0x00 << 24) | (r << 16) | (g << 8) | b;
-		else
 			data->cColor = (0x00 << 24) | (r << 16) | (g << 8) | b;
+		else
+			data->fColor = (0x00 << 24) | (r << 16) | (g << 8) | b;
 		state = 0;
 		index.j = 2;
 		info = info->next;
