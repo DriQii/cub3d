@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fovUtils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/07 23:23:25 by evella            #+#    #+#             */
+/*   Updated: 2025/04/08 00:49:54 by evella           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
 void	ft_print_bg(t_data *data, int x, int wallen)
@@ -21,6 +33,16 @@ t_ray	ft_find_dist(t_data *data, float angle)
 
 	ray.mapX = (int)data->player.x;
 	ray.mapY = (int)data->player.y;
+	ray.rayDirX = cos(angle);
+	ray.rayDirY = sin(angle);
+	if (ray.rayDirX == 0)
+		ray.deltaX = 1e30;
+	else
+		ray.deltaX = fabs(1 / ray.rayDirX);
+	if (ray.rayDirY == 0)
+		ray.deltaY = 1e30;
+	else
+		ray.deltaY = fabs(1 / ray.rayDirY);
 	ft_init_side_dist(data, &ray, angle);
 	ft_dda_loop(data, &ray);
 	if (ray.finalDir == 'x')
@@ -29,23 +51,25 @@ t_ray	ft_find_dist(t_data *data, float angle)
 		ray.finalDist = ray.sideDistY - ray.deltaY;
 	return (ray);
 }
+
 float	ft_find_impact(t_ray ray, t_data *data, float angle)
 {
 	float	impact;
-	float	posImpact;
+	float	pos_impact;
 
 	if (ray.finalDir == 'x')
 	{
-		posImpact = data->player.y + ray.finalDist * ray.rayDirY;
-		impact = posImpact - floor(posImpact);
+		pos_impact = data->player.y + ray.finalDist * ray.rayDirY;
+		impact = pos_impact - floor(pos_impact);
 	}
 	else
 	{
-		posImpact = data->player.x + ray.finalDist * ray.rayDirX;
-		impact = posImpact - floor(posImpact);
+		pos_impact = data->player.x + ray.finalDist * ray.rayDirX;
+		impact = pos_impact - floor(pos_impact);
 	}
 	return (impact);
 }
+
 void	ft_set_index(t_data *data, t_ray *ray, t_index *index, float angle)
 {
 	index->i = 0;

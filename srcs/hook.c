@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hook.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/07 23:23:28 by evella            #+#    #+#             */
+/*   Updated: 2025/04/08 00:50:44 by evella           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
-int	KeyDown(int keycode, t_data *data)
+int	key_down(int keycode, t_data *data)
 {
-	printf("k = %d\n", keycode);
 	if (keycode == WK)
 		data->keyState[W] = 1;
 	if (keycode == AK)
@@ -18,9 +29,8 @@ int	KeyDown(int keycode, t_data *data)
 	return (0);
 }
 
-int	KeyUp(int keycode, t_data *data)
+int	key_up(int keycode, t_data *data)
 {
-	printf("k = %d\n", keycode);
 	if (keycode == WK)
 		data->keyState[W] = 0;
 	if (keycode == AK)
@@ -33,15 +43,5 @@ int	KeyUp(int keycode, t_data *data)
 		data->keyState[L] = 0;
 	if (keycode == RK)
 		data->keyState[R] = 0;
-	return (0);
-}
-
-int	MouseMoove(int x, int y, t_data *data)
-{
-	if (x < data->mouse.x - 2)
-		data->player.pa -= 0.1;
-	if (x > data->mouse.x + 2)
-		data->player.pa += 0.1;
-	data->mouse.x = x;
 	return (0);
 }

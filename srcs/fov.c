@@ -1,11 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fov.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/07 23:23:23 by evella            #+#    #+#             */
+/*   Updated: 2025/04/08 00:48:37 by evella           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
 void	ft_init_side_dist(t_data *data, t_ray *ray, float angle)
 {
-	ray->rayDirX = cos(angle);
-	ray->rayDirY = sin(angle);
-	ray->deltaX = (ray->rayDirX == 0) ? 1e30 : fabs(1 / ray->rayDirX);
-	ray->deltaY = (ray->rayDirY == 0) ? 1e30 : fabs(1 / ray->rayDirY);
 	if (ray->rayDirX < 0)
 	{
 		ray->stepX = -1;
@@ -51,6 +59,7 @@ void	ft_dda_loop(t_data *data, t_ray *ray)
 			hit = 1;
 	}
 }
+
 void	ft_set_step(t_data *data, t_ray *ray)
 {
 	if (ray->finalDir == 'x' && ray->stepX == -1)
@@ -75,80 +84,38 @@ void	ft_set_step(t_data *data, t_ray *ray)
 	}
 }
 
-void	ft_print_wall(t_data *data, int x, int i, t_ray ray)
+int	ft_print_one_wall(t_img *img, t_index index, t_ray ray, t_img *frame)
 {
 	int	offset;
 
+	if ((ray.finalDir == 'x' && ray.stepX == -1)
+		|| (ray.finalDir == 'y' && ray.stepY == 1))
+	{
+		offset = (ray.texY * img->line_length) + ((img->width - 1
+					- ray.texX) * (img->bits_per_pixel / 8));
+	}
+	else
+	{
+		offset = (ray.texY * img->line_length) + (ray.texX
+				* (img->bits_per_pixel / 8));
+	}
+	my_pixel_put(frame, index.x, index.i, *(unsigned int *)(img->addr
+			+ offset));
+	return (offset);
+}
+
+void	ft_print_wall(t_data *data, int x, int i, t_ray ray)
+{
+	t_index	index;
+
+	index.x = x;
+	index.i = i;
 	if (ray.finalDir == 'x' && ray.stepX == -1)
-	{
-		offset = (ray.texY * data->weTex.line_length) + ((data->weTex.width - 1
-					- ray.texX) * (data->weTex.bits_per_pixel / 8));
-		my_pixel_put(&data->frame, x, i, *(unsigned int *)(data->weTex.addr
-				+ offset));
-	}
+		ft_print_one_wall(&data->weTex, index, ray, &data->frame);
 	else if (ray.finalDir == 'x' && ray.stepX == 1)
-	{
-		offset = (ray.texY * data->eaTex.line_length) + (ray.texX
-				* (data->eaTex.bits_per_pixel / 8));
-		my_pixel_put(&data->frame, x, i, *(unsigned int *)(data->eaTex.addr
-				+ offset));
-	}
+		ft_print_one_wall(&data->eaTex, index, ray, &data->frame);
 	else if (ray.finalDir == 'y' && ray.stepY == -1)
-	{
-		offset = (ray.texY * data->noTex.line_length) + (ray.texX
-				* (data->noTex.bits_per_pixel / 8));
-		my_pixel_put(&data->frame, x, i, *(unsigned int *)(data->noTex.addr
-				+ offset));
-	}
+		ft_print_one_wall(&data->noTex, index, ray, &data->frame);
 	else if (ray.finalDir == 'y' && ray.stepY == 1)
-	{
-		offset = (ray.texY * data->soTex.line_length) + ((data->soTex.width - 1
-					- ray.texX) * (data->soTex.bits_per_pixel / 8));
-		my_pixel_put(&data->frame, x, i, *(unsigned int *)(data->soTex.addr
-				+ offset));
-	}
-}
-
-void	ft_put_line(t_data *data, t_ray *ray, int x, float angle)
-{
-	t_index	index;
-	float	txPos;
-
-	ft_set_index(data, ray, &index, angle);
-	ft_print_bg(data, x, ray->wallLen);
-	ray->impact = ft_find_impact(*ray, data, angle);
-	ft_set_step(data, ray);
-	ray->wStart = -ray->wallLen / 2 + WIN_LENGHT / 2;
-	txPos = 0;
-	if (ray->wStart < 0)
-	{
-		txPos = (-ray->wStart) * ray->step;
-		ray->wStart = 0;
-	}
-	while (index.j < ray->wallLen && index.i < WIN_LENGHT)
-	{
-		index.j++;
-		ft_print_wall(data, x, index.i, *ray);
-		index.i++;
-		txPos += ray->step;
-		ray->texY = txPos;
-	}
-}
-void	ft_create_fov(t_data *data)
-{
-	t_index	index;
-	t_ray	ray;
-	float	angle;
-	float	decalage;
-
-	index.i = 0;
-	angle = data->player.pa - FOVRAD / 2;
-	decalage = FOVRAD / WIN_WIDTH;
-	while (index.i < WIN_WIDTH)
-	{
-		ray = ft_find_dist(data, angle);
-		ft_put_line(data, &ray, index.i, angle);
-		angle += decalage;
-		index.i++;
-	}
+		ft_print_one_wall(&data->soTex, index, ray, &data->frame);
 }

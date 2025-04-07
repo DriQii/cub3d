@@ -6,7 +6,7 @@
 # define FOVRAD FOVDEG *M_PI / 180
 
 # ifdef __APPLE__
-#  define WK13
+#  define WK 13
 #  define AK 0
 #  define SK 1
 #  define DK 2
@@ -71,14 +71,6 @@ typedef struct s_player
 	int				xo;
 }					t_player;
 
-typedef struct s_mouse
-{
-	int				x;
-	int				y;
-	float			newX;
-	float			newY;
-}					t_mouse;
-
 typedef struct s_data
 {
 	int				keyState[6];
@@ -95,7 +87,6 @@ typedef struct s_data
 	t_img			eaTex;
 	t_img			frame;
 	t_list			*info;
-	t_mouse			mouse;
 	t_player		player;
 	t_minimap		minimap;
 }					t_data;
@@ -112,6 +103,13 @@ typedef struct s_index
 	int				p;
 
 }					t_index;
+
+typedef struct s_rgb
+{
+	int				r;
+	int				g;
+	int				b;
+}					t_rgb;
 
 typedef struct s_pos
 {
@@ -157,9 +155,8 @@ void				my_pixel_put(t_img *data, int x, int y, int color);
 void				my_4x4_pixel_put(t_img *data, int x, int y, int color);
 void				ft_moove_pos(t_data *data);
 void				ft_moove_fov(t_data *data);
-int					MouseMoove(int x, int y, t_data *data);
-int					KeyUp(int keycode, t_data *data);
-int					KeyDown(int keycode, t_data *data);
+int					key_up(int keycode, t_data *data);
+int					key_down(int keycode, t_data *data);
 char				**ft_create_map(t_list *info, t_data *data);
 int					ft_parsing(char **argv, t_data *data);
 int					ft_check_map(t_list *info, t_data *data);
@@ -167,5 +164,10 @@ void				ft_init_all(t_data *data);
 void				ft_init_color(t_data *data);
 void				*ft_freetabtabb(char **tab);
 void				ft_freelst(t_list *lst);
+void				ft_put_line(t_data *data, t_ray *ray, int x, float angle);
+void				ft_set_step(t_data *data, t_ray *ray);
+void				ft_print_wall(t_data *data, int x, int i, t_ray ray);
+void				ft_init_tex(t_data *data, t_index *index);
+
 
 #endif

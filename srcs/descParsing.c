@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:18:39 by evella            #+#    #+#             */
-/*   Updated: 2025/04/07 18:25:40 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/07 23:33:53 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,26 @@ int	ft_check_pole_line(char *str, char *carDir)
 int	ft_check_pole(t_list *map)
 {
 	int		i;
-	char	car_dir[4][3] = {"NO", "SO", "WE", "EA"};
+	char	*car_dir[4];
 
+	car_dir[0] = ft_strdup("NO");
+	car_dir[1] = ft_strdup("SO");
+	car_dir[2] = ft_strdup("WE");
+	car_dir[3] = ft_strdup("EA");
 	i = 0;
 	if (ft_lstsize(map) < 9)
-		return (0);
+		return (free(car_dir[0]), free(car_dir[1]), free(car_dir[2])
+			, free(car_dir[3]), 0);
 	while (i < 4)
 	{
 		if (!ft_check_pole_line(map->content, car_dir[i]))
-			return (0);
+			return (free(car_dir[0]), free(car_dir[1]), free(car_dir[2])
+				, free(car_dir[3]), 0);
 		i++;
 		map = map->next;
 	}
-	return (1);
+	return (free(car_dir[0]), free(car_dir[1]), free(car_dir[2])
+		, free(car_dir[3]), 1);
 }
 
 int	ft_check_comma(char *str)
@@ -54,11 +61,9 @@ int	ft_check_comma(char *str)
 	{
 		if (index.s == 1 && (str[index.i] >= '0' && str[index.i] <= '9'))
 			index.p++;
-		else if (index.s == 0 && (str[index.i] >= '0' && str[index.i] <= '9'))
-		{
+		else if (index.s == 0 && (str[index.i] >= '0'
+				&& str[index.i] <= '9') && index.p++)
 			index.s = 1;
-			index.p++;
-		}
 		if ((index.s == 0 && (str[index.i] < '0' || str[index.i] > '9'))
 			|| (index.s == 1 && ((str[index.i] < '0' || str[index.i] > '9')
 					&& str[index.i] != ',')) || index.p >= 4)
@@ -66,7 +71,10 @@ int	ft_check_comma(char *str)
 		if (str[index.i++] == ',' && ++index.l)
 			index.p = 0;
 	}
-	return ((index.l != 2 || str[index.i - 1] == ',') ? 0 : 1);
+	if ((index.l != 2 || str[index.i - 1] == ','))
+		return (0);
+	else
+		return (1);
 }
 
 int	ft_check_up_and_down(t_list *map)

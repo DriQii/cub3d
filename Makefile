@@ -24,7 +24,9 @@ LST_SRCS =	main.c \
 			hook.c \
 			render.c \
 			fov.c \
-			fovUtils.c
+			fovUtils.c \
+			renderUtils.c \
+			init.c
 
 LST_OBJS = $(LST_SRCS:.c=.o)
 

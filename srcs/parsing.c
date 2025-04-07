@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 15:02:55 by evella            #+#    #+#             */
-/*   Updated: 2025/04/07 21:00:53 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/08 00:52:31 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 
 t_list	*ft_create_info(char *mapStr)
 {
-	t_list	*mapLst;
-	int		mapFd;
+	t_list	*map_lst;
+	int		map_fd;
 	char	*tmp;
 
-	mapLst = NULL;
-	mapFd = open(mapStr, O_RDONLY);
-	tmp = get_next_line(mapFd);
+	map_lst = NULL;
+	map_fd = open(mapStr, O_RDONLY);
+	tmp = get_next_line(map_fd);
 	while (tmp)
 	{
 		if (tmp[0] != '\n')
-			ft_lstadd_back(&mapLst, ft_lstnew(tmp));
+			ft_lstadd_back(&map_lst, ft_lstnew(tmp));
 		else
 			free(tmp);
-		tmp = get_next_line(mapFd);
+		tmp = get_next_line(map_fd);
 	}
-	close(mapFd);
-	return (mapLst);
+	close(map_fd);
+	return (map_lst);
 }
 
 int	ft_check_all(t_list *info)
