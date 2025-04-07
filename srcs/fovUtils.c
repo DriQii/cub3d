@@ -5,7 +5,7 @@ void	ft_print_bg(t_data *data, int x, int wallen)
 	int	i;
 
 	i = 0;
-	while(i < WIN_LENGHT)
+	while (i < WIN_LENGHT)
 	{
 		if (i < (WIN_LENGHT - wallen) / 2)
 			my_pixel_put(&data->frame, x, i, data->fColor);
@@ -18,7 +18,6 @@ void	ft_print_bg(t_data *data, int x, int wallen)
 t_ray	ft_find_dist(t_data *data, float angle)
 {
 	t_ray	ray;
-
 
 	ray.mapX = (int)data->player.x;
 	ray.mapY = (int)data->player.y;
@@ -47,7 +46,7 @@ float	ft_find_impact(t_ray ray, t_data *data, float angle)
 	}
 	return (impact);
 }
-void ft_set_index(t_data *data, t_ray *ray, t_index *index, float angle)
+void	ft_set_index(t_data *data, t_ray *ray, t_index *index, float angle)
 {
 	index->i = 0;
 	index->j = 0;

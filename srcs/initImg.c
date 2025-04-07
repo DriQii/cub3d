@@ -2,31 +2,33 @@
 
 void	ft_init_one_tex(t_data *data, t_img *img, t_list *info)
 {
-	char *file;
+	char	*file;
 
 	file = ft_substr(info->content, 3, ft_strlen(info->content) - 4);
-	img->img = mlx_xpm_file_to_image(data->mlx, file, &img->width, &img->height);
-	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+	img->img = mlx_xpm_file_to_image(data->mlx, file, &img->width,
+			&img->height);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
+			&img->line_length, &img->endian);
 	free(file);
 }
 
-void ft_init_tex(t_data *data, t_index *index)
+void	ft_init_tex(t_data *data, t_index *index)
 {
-	t_list *info;
+	t_list	*info;
 
 	index->p = 0;
 	index->i = 0;
 	index->j = 0;
 	info = data->info;
-	while(index->p < 4)
+	while (index->p < 4)
 	{
-		if (((char*)info->content)[0] == 'N')
+		if (((char *)info->content)[0] == 'N')
 			ft_init_one_tex(data, &data->noTex, info);
-		else if (((char*)info->content)[0] == 'S')
+		else if (((char *)info->content)[0] == 'S')
 			ft_init_one_tex(data, &data->soTex, info);
-		else if (((char*)info->content)[0] == 'W')
+		else if (((char *)info->content)[0] == 'W')
 			ft_init_one_tex(data, &data->weTex, info);
-		else if (((char*)info->content)[0] == 'E')
+		else if (((char *)info->content)[0] == 'E')
 			ft_init_one_tex(data, &data->eaTex, info);
 		index->p++;
 		info = info->next;
@@ -48,7 +50,7 @@ void	ft_init_var(t_data *data, t_index *index)
 	data->player.speed = 0.1;
 }
 
-void ft_init_angle(t_data *data, t_index *index)
+void	ft_init_angle(t_data *data, t_index *index)
 {
 	index->s = 1;
 	while (data->map[index->i] && index->s)
@@ -64,8 +66,10 @@ void ft_init_angle(t_data *data, t_index *index)
 				data->player.pa = M_PI + M_PI_2;
 			if (data->map[index->i][index->j] == 'E')
 				data->player.pa = 0;
-			if (data->map[index->i][index->j] == 'S' || data->map[index->i][index->j] == 'W'
-			|| data->map[index->i][index->j] == 'N' || data->map[index->i][index->j] == 'E')
+			if (data->map[index->i][index->j] == 'S'
+				|| data->map[index->i][index->j] == 'W'
+				|| data->map[index->i][index->j] == 'N'
+				|| data->map[index->i][index->j] == 'E')
 				index->s = 0;
 			index->j++;
 		}
@@ -75,14 +79,14 @@ void ft_init_angle(t_data *data, t_index *index)
 
 void	ft_init_all(t_data *data)
 {
-	t_index index;
+	t_index	index;
 
 	ft_init_tex(data, &index);
 	ft_init_angle(data, &index);
 	ft_init_var(data, &index);
 	ft_init_color(data);
 }
-void ft_init_color(t_data *data)
+void	ft_init_color(t_data *data)
 {
 	t_index	index;
 	t_list	*info;
@@ -97,20 +101,21 @@ void ft_init_color(t_data *data)
 	state = 0;
 	while (index.i++ < 2)
 	{
-		while(((char *)info->content)[index.j])
+		while (((char *)info->content)[index.j])
 		{
 			if (((char *)info->content)[index.j] == ',')
 			{
-				if(state == 0)
+				if (state == 0)
 				{
 					r = atoi(&((char *)info->content)[index.j - (index.j - 2)]);
 					index.p = index.j + 1;
 				}
-				else if(state == 1)
+				else if (state == 1)
 				{
-					g = atoi(&((char *)info->content)[index.j - (index.j - index.p)]);
+					g = atoi(&((char *)info->content)[index.j - (index.j
+								- index.p)]);
 					b = atoi(&((char *)info->content)[index.j + 1]);
-					break;
+					break ;
 				}
 				state++;
 			}

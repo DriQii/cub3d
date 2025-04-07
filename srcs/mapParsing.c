@@ -12,9 +12,10 @@
 
 #include <parsing.h>
 
-static char *ft_add_space_to_str(char *str, int len)
+static char	*ft_add_space_to_str(char *str, int len)
 {
 	char	*tmp;
+
 	tmp = ft_calloc(sizeof(char), len + 1);
 	ft_memset(tmp, ' ', len);
 	ft_strcpy(tmp, str);
@@ -25,44 +26,44 @@ static char *ft_add_space_to_str(char *str, int len)
 	return (tmp);
 }
 
-static void ft_add_space_to_tab(t_data *data)
+static void	ft_add_space_to_tab(t_data *data)
 {
 	t_index	index;
 
 	index.i = 0;
 	index.j = 0;
 	index.l = 0;
-
 	index.l = ft_strlen(data->map[0]);
-	while(data->map[index.i])
+	while (data->map[index.i])
 	{
 		if (ft_strlen(data->map[index.i]) > index.l)
 			index.l = ft_strlen(data->map[index.i]);
 		index.i++;
 	}
 	index.i = 0;
-	while(data->map[index.i])
+	while (data->map[index.i])
 	{
 		if (ft_strlen(data->map[index.i]) < index.l)
-			data->map[index.i] = ft_add_space_to_str(data->map[index.i], index.l);
+			data->map[index.i] = ft_add_space_to_str(data->map[index.i],
+					index.l);
 		index.i++;
 	}
 }
 
-static int ft_check_space(char** map,int i, int j)
+static int	ft_check_space(char **map, int i, int j)
 {
-	if(map[i][j + 1] == ' ' || map[i][j + 1] == '\n')
-		return(0);
-	else if(j == 0 || map[i][j - 1] == ' ')
-		return(0);
-	else if(!map[i + 1] || map[i + 1][j] == ' ')
-		return(0);
-	else if(i == 0 || map[i - 1][j] == ' ')
-		return(0);
+	if (map[i][j + 1] == ' ' || map[i][j + 1] == '\n')
+		return (0);
+	else if (j == 0 || map[i][j - 1] == ' ')
+		return (0);
+	else if (!map[i + 1] || map[i + 1][j] == ' ')
+		return (0);
+	else if (i == 0 || map[i - 1][j] == ' ')
+		return (0);
 	return (1);
 }
 
-int ft_check_map(t_list *info, t_data *data)
+int	ft_check_map(t_list *info, t_data *data)
 {
 	t_index	index;
 
@@ -70,13 +71,13 @@ int ft_check_map(t_list *info, t_data *data)
 	index.i = 0;
 	index.j = 0;
 	ft_add_space_to_tab(data);
-	while(data->map[index.i])
+	while (data->map[index.i])
 	{
-		while(data->map[index.i][index.j])
+		while (data->map[index.i][index.j])
 		{
-			if(data->map[index.i][index.j] == '0')
+			if (data->map[index.i][index.j] == '0')
 				if (!ft_check_space(data->map, index.i, index.j))
-					return(0);
+					return (0);
 			index.j++;
 		}
 		index.j = 0;
@@ -84,4 +85,3 @@ int ft_check_map(t_list *info, t_data *data)
 	}
 	return (1);
 }
-

@@ -41,7 +41,7 @@ int	MouseMoove(int x, int y, t_data *data)
 	if (x < data->mouse.x - 2)
 		data->player.pa -= 0.1;
 	if (x > data->mouse.x + 2)
-		data->player.pa +=0.1;
+		data->player.pa += 0.1;
 	data->mouse.x = x;
 	return (0);
 }
