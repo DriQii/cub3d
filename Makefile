@@ -2,10 +2,10 @@ CC = gcc
 
 ifeq ($(shell uname), Darwin)
 	CFLAGS = -Wall -g -O0 -Imlx -Ilibft -Iinclude  -Lmlx -lmlx -Llibft -lft -framework OpenGL -framework AppKit
-    LDFLAGS = -framework Cocoa
+	MLXMAKE = @make -C mlx
 else
     CFLAGS = -Wall -g -O0 -lXext -lX11 -lm -lz -Imlx_linux -Ilibft -Iinclude  -Lmlx_linux -lmlx -Llibft -lft
-    LDFLAGS = -lm
+	MLXMAKE = @make -C mlx_linux
 endif
 
 NAME = cub3d
@@ -41,23 +41,26 @@ all : $(NAME)
 
 $(DIR_OBJS)/%.o : $(DIR_SRCS)/%.c
 	@mkdir -p .objs
-	@make -C libft
 	@$(CC) $(CFLAGS) -o $@ -c $<
 	@printf "$(BLUE) > Compilation :$(END) $<\n"
 
 
 $(NAME) :   $(OBJS)
+	@$(MLXMAKE)
+	@make -C libft
 	@$(CC) $(OBJS) $(CFLAGS) -o $(NAME)
 	@printf "$(ERASE)$(GREEN)$(NAME) made !\n$(END)"
 
 clean   :
 	@printf "$(YELLOW)$(DIR_OBJS) removed$(END)\n"
 	@rm -rdf $(DIR_OBJS)
+	@$(MLXMAKE) clean
 	@make -C libft clean
 
 fclean  :   clean
 	@printf "$(YELLOW)$(NAME) removed$(END)\n"
 	@rm -f $(NAME)
+	@$(MLXMAKE) clean
 	@make -C libft fclean
 
 re      :   fclean all
