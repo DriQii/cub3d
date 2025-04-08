@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:01:30 by evella            #+#    #+#             */
-/*   Updated: 2025/04/08 09:03:33 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/08 09:07:16 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #  define DK 2
 #  define LK 123
 #  define RK 124
-#  define ESC 65307
+#  define ESC 53
 # elif defined(__linux__)
 #  define WK 119
 #  define AK 97
@@ -179,5 +179,6 @@ void				ft_put_line(t_data *data, t_ray *ray, int x, float angle);
 void				ft_set_step(t_data *data, t_ray *ray);
 void				ft_print_wall(t_data *data, int x, int i, t_ray ray);
 void				ft_init_tex(t_data *data, t_index *index);
+int					close_window(t_data *data);
 
 #endif
