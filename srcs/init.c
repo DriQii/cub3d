@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:01:33 by evella            #+#    #+#             */
-/*   Updated: 2025/04/08 01:04:26 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/08 09:03:08 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ void	ft_init_color(t_data *data)
 	{
 		ft_set_rgb(&index, info, &rgb);
 		if (index.i == 1)
-			data->cColor = (0x00 << 24) | (rgb.r << 16) | (rgb.g << 8) | rgb.b;
+			data->c_color = (0x00 << 24) | (rgb.r << 16) | (rgb.g << 8) | rgb.b;
 		else
-			data->fColor = (0x00 << 24) | (rgb.r << 16) | (rgb.g << 8) | rgb.b;
+			data->f_color = (0x00 << 24) | (rgb.r << 16) | (rgb.g << 8) | rgb.b;
 		index.s = 0;
 		index.j = 2;
 		info = info->next;
@@ -91,12 +91,12 @@ void	ft_init_var(t_data *data, t_index *index)
 {
 	data->player.x = index->j - 0.5;
 	data->player.y = index->i - 0.5;
-	data->keyState[W] = 0;
-	data->keyState[A] = 0;
-	data->keyState[S] = 0;
-	data->keyState[D] = 0;
-	data->keyState[L] = 0;
-	data->keyState[R] = 0;
+	data->key_state[W] = 0;
+	data->key_state[A] = 0;
+	data->key_state[S] = 0;
+	data->key_state[D] = 0;
+	data->key_state[L] = 0;
+	data->key_state[R] = 0;
 	data->player.speed = 0.1;
 }
 

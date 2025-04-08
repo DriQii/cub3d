@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 23:23:23 by evella            #+#    #+#             */
-/*   Updated: 2025/04/08 00:48:37 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/08 09:03:25 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 void	ft_init_side_dist(t_data *data, t_ray *ray, float angle)
 {
-	if (ray->rayDirX < 0)
+	if (ray->ray_dir_x < 0)
 	{
-		ray->stepX = -1;
-		ray->sideDistX = (data->player.x - ray->mapX) * ray->deltaX;
+		ray->step_x = -1;
+		ray->side_dist_x = (data->player.x - ray->map_x) * ray->delta_x;
 	}
-	else if (ray->rayDirX >= 0)
+	else if (ray->ray_dir_x >= 0)
 	{
-		ray->stepX = 1;
-		ray->sideDistX = (ray->mapX + 1 - data->player.x) * ray->deltaX;
+		ray->step_x = 1;
+		ray->side_dist_x = (ray->map_x + 1 - data->player.x) * ray->delta_x;
 	}
-	if (ray->rayDirY < 0)
+	if (ray->ray_dir_y < 0)
 	{
-		ray->stepY = -1;
-		ray->sideDistY = (data->player.y - ray->mapY) * ray->deltaY;
+		ray->step_y = -1;
+		ray->side_dist_y = (data->player.y - ray->map_y) * ray->delta_y;
 	}
-	else if (ray->rayDirY >= 0)
+	else if (ray->ray_dir_y >= 0)
 	{
-		ray->stepY = 1;
-		ray->sideDistY = (ray->mapY + 1 - data->player.y) * ray->deltaY;
+		ray->step_y = 1;
+		ray->side_dist_y = (ray->map_y + 1 - data->player.y) * ray->delta_y;
 	}
 }
 
@@ -43,44 +43,44 @@ void	ft_dda_loop(t_data *data, t_ray *ray)
 	hit = 0;
 	while (!hit)
 	{
-		if (ray->sideDistX < ray->sideDistY)
+		if (ray->side_dist_x < ray->side_dist_y)
 		{
-			ray->sideDistX += ray->deltaX;
-			ray->mapX += ray->stepX;
-			ray->finalDir = 'x';
+			ray->side_dist_x += ray->delta_x;
+			ray->map_x += ray->step_x;
+			ray->final_dir = 'x';
 		}
 		else
 		{
-			ray->sideDistY += ray->deltaY;
-			ray->mapY += ray->stepY;
-			ray->finalDir = 'y';
+			ray->side_dist_y += ray->delta_y;
+			ray->map_y += ray->step_y;
+			ray->final_dir = 'y';
 		}
-		if (data->map[ray->mapY][ray->mapX] == '1')
+		if (data->map[ray->map_y][ray->map_x] == '1')
 			hit = 1;
 	}
 }
 
 void	ft_set_step(t_data *data, t_ray *ray)
 {
-	if (ray->finalDir == 'x' && ray->stepX == -1)
+	if (ray->final_dir == 'x' && ray->step_x == -1)
 	{
-		ray->texX = (ray->impact * data->weTex.width);
-		ray->step = (float)data->weTex.height / ray->wallLen;
+		ray->tex_x = (ray->impact * data->we_tex.width);
+		ray->step = (float)data->we_tex.height / ray->wall_len;
 	}
-	else if (ray->finalDir == 'x' && ray->stepX == 1)
+	else if (ray->final_dir == 'x' && ray->step_x == 1)
 	{
-		ray->texX = (ray->impact * data->eaTex.width);
-		ray->step = (float)data->eaTex.height / ray->wallLen;
+		ray->tex_x = (ray->impact * data->ea_tex.width);
+		ray->step = (float)data->ea_tex.height / ray->wall_len;
 	}
-	else if (ray->finalDir == 'y' && ray->stepY == -1)
+	else if (ray->final_dir == 'y' && ray->step_y == -1)
 	{
-		ray->texX = (ray->impact * data->noTex.width);
-		ray->step = (float)data->noTex.height / ray->wallLen;
+		ray->tex_x = (ray->impact * data->no_tex.width);
+		ray->step = (float)data->no_tex.height / ray->wall_len;
 	}
-	else if (ray->finalDir == 'y' && ray->stepY == 1)
+	else if (ray->final_dir == 'y' && ray->step_y == 1)
 	{
-		ray->texX = (ray->impact * data->soTex.width);
-		ray->step = (float)data->soTex.height / ray->wallLen;
+		ray->tex_x = (ray->impact * data->so_tex.width);
+		ray->step = (float)data->so_tex.height / ray->wall_len;
 	}
 }
 
@@ -88,15 +88,15 @@ int	ft_print_one_wall(t_img *img, t_index index, t_ray ray, t_img *frame)
 {
 	int	offset;
 
-	if ((ray.finalDir == 'x' && ray.stepX == -1)
-		|| (ray.finalDir == 'y' && ray.stepY == 1))
+	if ((ray.final_dir == 'x' && ray.step_x == -1)
+		|| (ray.final_dir == 'y' && ray.step_y == 1))
 	{
-		offset = (ray.texY * img->line_length) + ((img->width - 1
-					- ray.texX) * (img->bits_per_pixel / 8));
+		offset = (ray.tex_y * img->line_length) + ((img->width - 1
+					- ray.tex_x) * (img->bits_per_pixel / 8));
 	}
 	else
 	{
-		offset = (ray.texY * img->line_length) + (ray.texX
+		offset = (ray.tex_y * img->line_length) + (ray.tex_x
 				* (img->bits_per_pixel / 8));
 	}
 	my_pixel_put(frame, index.x, index.i, *(unsigned int *)(img->addr
@@ -110,12 +110,12 @@ void	ft_print_wall(t_data *data, int x, int i, t_ray ray)
 
 	index.x = x;
 	index.i = i;
-	if (ray.finalDir == 'x' && ray.stepX == -1)
-		ft_print_one_wall(&data->weTex, index, ray, &data->frame);
-	else if (ray.finalDir == 'x' && ray.stepX == 1)
-		ft_print_one_wall(&data->eaTex, index, ray, &data->frame);
-	else if (ray.finalDir == 'y' && ray.stepY == -1)
-		ft_print_one_wall(&data->noTex, index, ray, &data->frame);
-	else if (ray.finalDir == 'y' && ray.stepY == 1)
-		ft_print_one_wall(&data->soTex, index, ray, &data->frame);
+	if (ray.final_dir == 'x' && ray.step_x == -1)
+		ft_print_one_wall(&data->we_tex, index, ray, &data->frame);
+	else if (ray.final_dir == 'x' && ray.step_x == 1)
+		ft_print_one_wall(&data->ea_tex, index, ray, &data->frame);
+	else if (ray.final_dir == 'y' && ray.step_y == -1)
+		ft_print_one_wall(&data->no_tex, index, ray, &data->frame);
+	else if (ray.final_dir == 'y' && ray.step_y == 1)
+		ft_print_one_wall(&data->so_tex, index, ray, &data->frame);
 }

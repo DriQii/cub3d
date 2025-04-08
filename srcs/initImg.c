@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 23:23:30 by evella            #+#    #+#             */
-/*   Updated: 2025/04/08 01:02:25 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/08 09:03:25 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ void	ft_init_tex(t_data *data, t_index *index)
 	while (index->p < 4)
 	{
 		if (((char *)info->content)[0] == 'N')
-			ft_init_one_tex(data, &data->noTex, info);
+			ft_init_one_tex(data, &data->no_tex, info);
 		else if (((char *)info->content)[0] == 'S')
-			ft_init_one_tex(data, &data->soTex, info);
+			ft_init_one_tex(data, &data->so_tex, info);
 		else if (((char *)info->content)[0] == 'W')
-			ft_init_one_tex(data, &data->weTex, info);
+			ft_init_one_tex(data, &data->we_tex, info);
 		else if (((char *)info->content)[0] == 'E')
-			ft_init_one_tex(data, &data->eaTex, info);
+			ft_init_one_tex(data, &data->ea_tex, info);
 		index->p++;
 		info = info->next;
 	}

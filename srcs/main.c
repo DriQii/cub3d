@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:18:25 by evella            #+#    #+#             */
-/*   Updated: 2025/04/08 01:00:17 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/08 09:03:25 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int	close_window(t_data *data)
 {
 	mlx_destroy_window(data->mlx, data->mlx_win);
-	mlx_destroy_image(data->mlx, data->noTex.img);
-	mlx_destroy_image(data->mlx, data->soTex.img);
-	mlx_destroy_image(data->mlx, data->weTex.img);
-	mlx_destroy_image(data->mlx, data->eaTex.img);
+	mlx_destroy_image(data->mlx, data->no_tex.img);
+	mlx_destroy_image(data->mlx, data->so_tex.img);
+	mlx_destroy_image(data->mlx, data->we_tex.img);
+	mlx_destroy_image(data->mlx, data->ea_tex.img);
 	ft_freelst(data->info);
 	ft_freetabtabb(data->map);
 	free(data->mlx);

@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 00:46:55 by evella            #+#    #+#             */
-/*   Updated: 2025/04/08 00:48:50 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/08 08:59:34 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,22 +68,22 @@ void	ft_put_line(t_data *data, t_ray *ray, int x, float angle)
 	float	tx_pos;
 
 	ft_set_index(data, ray, &index, angle);
-	ft_print_bg(data, x, ray->wallLen);
+	ft_print_bg(data, x, ray->wall_len);
 	ray->impact = ft_find_impact(*ray, data, angle);
 	ft_set_step(data, ray);
-	ray->wStart = -ray->wallLen / 2 + WIN_LENGHT / 2;
+	ray->wall_start = -ray->wall_len / 2 + WIN_LENGHT / 2;
 	tx_pos = 0;
-	if (ray->wStart < 0)
+	if (ray->wall_start < 0)
 	{
-		tx_pos = (-ray->wStart) * ray->step;
-		ray->wStart = 0;
+		tx_pos = (-ray->wall_start) * ray->step;
+		ray->wall_start = 0;
 	}
-	while (index.j < ray->wallLen && index.i < WIN_LENGHT)
+	while (index.j < ray->wall_len && index.i < WIN_LENGHT)
 	{
 		index.j++;
 		ft_print_wall(data, x, index.i, *ray);
 		index.i++;
 		tx_pos += ray->step;
-		ray->texY = tx_pos;
+		ray->tex_y = tx_pos;
 	}
 }

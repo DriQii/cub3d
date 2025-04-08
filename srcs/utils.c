@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:18:32 by evella            #+#    #+#             */
-/*   Updated: 2025/04/07 23:23:44 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/08 08:56:59 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**ft_create_map(t_list *info, t_data *data)
 	t_index	index;
 	char	**map;
 
-	data->mapY = 8;
+	data->map_y = 8;
 	map = ft_calloc(sizeof(char *), ft_lstsize(info) - 5);
 	index.i = 0;
 	while (index.i++ < 6)

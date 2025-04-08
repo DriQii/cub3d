@@ -6,7 +6,7 @@
 /*   By: evella <evella@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 23:23:42 by evella            #+#    #+#             */
-/*   Updated: 2025/04/08 00:46:44 by evella           ###   ########.fr       */
+/*   Updated: 2025/04/08 09:02:35 by evella           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	ft_create_fov(t_data *data)
 	float	decalage;
 
 	index.i = 0;
-	angle = data->player.pa - FOVRAD / 2;
-	decalage = FOVRAD / WIN_WIDTH;
+	angle = data->player.pa - (FOVDEG * M_PI / 180) / 2;
+	decalage = (FOVDEG * M_PI / 180) / WIN_WIDTH;
 	while (index.i < WIN_WIDTH)
 	{
 		ray = ft_find_dist(data, angle);
