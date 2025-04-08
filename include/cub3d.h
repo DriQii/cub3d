@@ -152,9 +152,9 @@ typedef struct s_ray
 }					t_ray;
 
 void				ft_dda_loop(t_data *data, t_ray *ray);
-void				ft_init_side_dist(t_data *data, t_ray *ray, float angle);
+void				ft_init_side_dist(t_data *data, t_ray *ray);
 t_ray				ft_find_dist(t_data *data, float angle);
-float				ft_find_impact(t_ray ray, t_data *data, float angle);
+float				ft_find_impact(t_ray ray, t_data *data);
 void				ft_set_index(t_data *data, t_ray *ray, t_index *index,
 						float angle);
 void				ft_print_bg(t_data *data, int x, int wallen);
@@ -170,7 +170,7 @@ int					key_up(int keycode, t_data *data);
 int					key_down(int keycode, t_data *data);
 char				**ft_create_map(t_list *info, t_data *data);
 int					ft_parsing(char **argv, t_data *data);
-int					ft_check_map(t_list *info, t_data *data);
+int					ft_check_map(t_data *data);
 void				ft_init_all(t_data *data);
 void				ft_init_color(t_data *data);
 void				*ft_freetabtabb(char **tab);

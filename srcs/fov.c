@@ -12,7 +12,7 @@
 
 #include <cub3d.h>
 
-void	ft_init_side_dist(t_data *data, t_ray *ray, float angle)
+void	ft_init_side_dist(t_data *data, t_ray *ray)
 {
 	if (ray->ray_dir_x < 0)
 	{

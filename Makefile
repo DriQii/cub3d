@@ -1,10 +1,10 @@
 CC = gcc
 
 ifeq ($(shell uname), Darwin)
-	CFLAGS = -Wall -g -O0 -Imlx -Ilibft -Iinclude  -Lmlx -lmlx -Llibft -lft -framework OpenGL -framework AppKit
+	CFLAGS = -Wall -Werror -Wextra -g -O0 -Imlx -Ilibft -Iinclude  -Lmlx -lmlx -Llibft -lft -framework OpenGL -framework AppKit
 	MLXMAKE = @make -C mlx
 else
-    CFLAGS = -Wall -g -O0 -lXext -lX11 -lm -lz -Imlx_linux -Ilibft -Iinclude  -Lmlx_linux -lmlx -Llibft -lft
+    CFLAGS = -Wall -Werror -Wextra -g -O0 -lXext -lX11 -lm -lz -Imlx_linux -Ilibft -Iinclude  -Lmlx_linux -lmlx -Llibft -lft
 	MLXMAKE = @make -C mlx_linux
 endif
 

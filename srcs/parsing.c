@@ -47,10 +47,10 @@ int	ft_parsing(char **argv, t_data *data)
 
 	info = ft_create_info(argv[1]);
 	data->map = ft_create_map(info, data);
-	if (!ft_check_all(info) || !ft_check_map(info, data))
+	if (!ft_check_all(info) || !ft_check_map(data))
 	{
 		printf("ERROR : Wrong map.cub format\n");
-		return (0);
+		return (ft_freetabtabb(data->map), ft_freelst(info), 0);
 	}
 	data->info = info;
 	return (1);

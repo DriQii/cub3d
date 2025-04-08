@@ -54,7 +54,7 @@ void	*ft_freetabtabb(char **tab)
 		tab[i] = NULL;
 		i++;
 	}
-	if (i > 0)
+	if (tab)
 		free(tab);
 	tab = NULL;
 	return (NULL);

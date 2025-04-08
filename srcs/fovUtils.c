@@ -43,7 +43,7 @@ t_ray	ft_find_dist(t_data *data, float angle)
 		ray.delta_y = 1e30;
 	else
 		ray.delta_y = fabs(1 / ray.ray_dir_y);
-	ft_init_side_dist(data, &ray, angle);
+	ft_init_side_dist(data, &ray);
 	ft_dda_loop(data, &ray);
 	if (ray.final_dir == 'x')
 		ray.final_dist = ray.side_dist_x - ray.delta_x;
@@ -52,7 +52,7 @@ t_ray	ft_find_dist(t_data *data, float angle)
 	return (ray);
 }
 
-float	ft_find_impact(t_ray ray, t_data *data, float angle)
+float	ft_find_impact(t_ray ray, t_data *data)
 {
 	float	impact;
 	float	pos_impact;

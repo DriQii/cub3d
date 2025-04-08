@@ -21,20 +21,22 @@ int	close_window(t_data *data)
 	mlx_destroy_image(data->mlx, data->ea_tex.img);
 	ft_freelst(data->info);
 	ft_freetabtabb(data->map);
+	mlx_destroy_display(data->mlx);
 	free(data->mlx);
 	free(data);
 	exit(0);
 	return (0);
 }
-//mlx_destroy_display(data->mlx);
 
 int	main(int argc, char **argv)
 {
 	t_data	*data;
 
+	if (argc != 2)
+		return (printf("format : ./cub3d maps/....cub\n"), 1);
 	data = malloc(sizeof(*data));
 	if (!ft_parsing(argv, data))
-		return (1);
+		return (free(data), 1);
 	data->mlx = mlx_init();
 	data->mlx_win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_LENGHT, "Cub3D");
 	ft_init_all(data);

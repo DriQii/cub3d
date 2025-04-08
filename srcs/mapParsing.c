@@ -36,14 +36,14 @@ static void	ft_add_space_to_tab(t_data *data)
 	index.l = ft_strlen(data->map[0]);
 	while (data->map[index.i])
 	{
-		if (ft_strlen(data->map[index.i]) > index.l)
+		if (ft_strlen(data->map[index.i]) > (size_t)index.l)
 			index.l = ft_strlen(data->map[index.i]);
 		index.i++;
 	}
 	index.i = 0;
 	while (data->map[index.i])
 	{
-		if (ft_strlen(data->map[index.i]) < index.l)
+		if (ft_strlen(data->map[index.i]) < (size_t)index.l)
 			data->map[index.i] = ft_add_space_to_str(data->map[index.i],
 					index.l);
 		index.i++;
@@ -63,7 +63,7 @@ static int	ft_check_space(char **map, int i, int j)
 	return (1);
 }
 
-int	ft_check_map(t_list *info, t_data *data)
+int	ft_check_map(t_data *data)
 {
 	t_index	index;
 

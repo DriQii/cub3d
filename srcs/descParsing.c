@@ -62,11 +62,12 @@ int	ft_check_comma(char *str)
 		if (index.s == 1 && (str[index.i] >= '0' && str[index.i] <= '9'))
 			index.p++;
 		else if (index.s == 0 && (str[index.i] >= '0'
-				&& str[index.i] <= '9') && index.p++)
+				&& str[index.i] <= '9') && ++index.p)
 			index.s = 1;
 		if ((index.s == 0 && (str[index.i] < '0' || str[index.i] > '9'))
 			|| (index.s == 1 && ((str[index.i] < '0' || str[index.i] > '9')
-					&& str[index.i] != ',')) || index.p >= 4)
+					&& str[index.i] != ',')) || index.p >= 4
+			|| (str[index.i] == ',' && index.p == 0))
 			return (0);
 		if (str[index.i++] == ',' && ++index.l)
 			index.p = 0;

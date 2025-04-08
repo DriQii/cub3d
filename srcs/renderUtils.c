@@ -69,7 +69,7 @@ void	ft_put_line(t_data *data, t_ray *ray, int x, float angle)
 
 	ft_set_index(data, ray, &index, angle);
 	ft_print_bg(data, x, ray->wall_len);
-	ray->impact = ft_find_impact(*ray, data, angle);
+	ray->impact = ft_find_impact(*ray, data);
 	ft_set_step(data, ray);
 	ray->wall_start = -ray->wall_len / 2 + WIN_LENGHT / 2;
 	tx_pos = 0;
